@@ -12,7 +12,7 @@
 		"arduino"
 	],
 	"platforms": [
-		"nordicnrf52"
+		"*"
 	],
 	"license": "MIT",
 	"authors": [
