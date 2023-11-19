@@ -8,5 +8,8 @@ This library covers the communication between a [RAKwireless WisCore module](htt
 
 # Release Notes
 
-## 1.0.0 Initial release
+## 0.0.2 Fix nested entry get
+   - Still testing
+   
+## 0.0.1 Initial release
    - Still testing

@@ -1069,9 +1069,13 @@ bool RAK_BLUES::get_nested_string_entry(char *type, char *nested, char *value, u
 {
 	if (note_json[type].containsKey(nested))
 	{
-		char *entry_str = (char *)note_json[type].as<const char *>();
-		strncpy(value, entry_str, value_size);
-		return true;
+		const char *entry_str = note_json[type][nested].as<const char *>();
+		if (entry_str != nullptr)
+		{
+			strncpy(value, entry_str, value_size - 1);
+			value[value_size - 1] = '\0'; // Ensure null termination
+			return true;
+		}
 	}
 	else
 	{
@@ -1120,9 +1124,9 @@ bool RAK_BLUES::get_nested_string_entry(char *type, char *nested, char *value, u
  */
 bool RAK_BLUES::get_nested_int32_entry(char *type, char *nested, int32_t &value)
 {
-	if (has_entry(type))
+	if (note_json[type].containsKey(nested))
 	{
-		value = note_json[type].as<int32_t>();
+		value = note_json[type][nested].as<int32_t>();
 		return true;
 	}
 	else
@@ -1172,9 +1176,9 @@ bool RAK_BLUES::get_nested_int32_entry(char *type, char *nested, int32_t &value)
  */
 bool RAK_BLUES::get_nested_uint32_entry(char *type, char *nested, uint32_t &value)
 {
-	if (has_entry(type))
+	if (note_json[type].containsKey(nested))
 	{
-		value = note_json[type].as<uint32_t>();
+		value = note_json[type][nested].as<uint32_t>();
 		return true;
 	}
 	else
@@ -1224,9 +1228,9 @@ bool RAK_BLUES::get_nested_uint32_entry(char *type, char *nested, uint32_t &valu
  */
 bool RAK_BLUES::get_nested_bool_entry(char *type, char *nested, bool &value)
 {
-	if (has_entry(type))
+	if (note_json[type].containsKey(nested))
 	{
-		value = note_json[type].as<bool>();
+		value = note_json[type][nested].as<bool>();
 		return true;
 	}
 	else
