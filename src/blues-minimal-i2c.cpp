@@ -246,15 +246,15 @@ bool RAK_BLUES::send_req(char *response, uint16_t resp_len)
 
 	BLUES_LOG("BLUES", "Response: %s", in_out_buff);
 
-	if (response != NULL)
-	{
-		snprintf(response, resp_len, "%s", (char *)in_out_buff);
-	}
-
 	// Make it JSON
 	note_json.clear();
 	deserializeJson(note_json, (char *)in_out_buff);
 
+	// If response is requested as string
+	if (response != NULL)
+	{
+		serializeJson(note_json, response, resp_len);
+	}
 	return true;
 }
 

@@ -8,6 +8,9 @@ This library covers the communication between a [RAKwireless WisCore module](htt
 
 # Release Notes
 
+## 0.0.3 Fix response string 
+   - Fix response string cut off in send_req
+   
 ## 0.0.2 Fix nested entry get
    - Still testing
    
