@@ -83,6 +83,11 @@ public:
 	void add_nested_uint32_entry(char *type, char *nested, uint32_t value);
 	void add_nested_bool_entry(char *type, char *nested, bool value);
 	void add_nested_float_entry(char *type, char *nested, float value);
+	void add_2lv_nested_string_entry(char *type, char *nested, char *nested2, char *value);
+	void add_2lv_nested_int32_entry(char *type, char *nested, char *nested2, int32_t value);
+	void add_2lv_nested_uint32_entry(char *type, char *nested, char *nested2, uint32_t value);
+	void add_2lv_nested_bool_entry(char *type, char *nested, char *nested2, bool value);
+	void add_2lv_nested_float_entry(char *type, char *nested, char *nested2, float value);
 
 	bool has_entry(char *type);
 	bool has_nested_entry(char *type, char *nested);
@@ -92,11 +97,15 @@ public:
 	bool get_int32_entry(char *type, int32_t &value);
 	bool get_uint32_entry(char *type, uint32_t &value);
 	bool get_float_entry(char *type, float &value);
-	bool get_nested_string_entry(char *type, char *nested, char *value, uint16_t value_size);
 	bool get_string_entry_from_array(char *type, char *value, uint16_t value_size);
+	bool get_nested_string_entry(char *type, char *nested, char *value, uint16_t value_size);
 	bool get_nested_int32_entry(char *type, char *nested, int32_t &value);
 	bool get_nested_uint32_entry(char *type, char *nested, uint32_t &value);
 	bool get_nested_bool_entry(char *type, char *nested, bool &value);
+	bool get_2lv_nested_string_entry(char *type, char *nested, char *nested2, char *value, uint16_t value_size);
+	bool get_2lv_nested_int32_entry(char *type, char *nested, char *nested2, int32_t &value);
+	bool get_2lv_nested_uint32_entry(char *type, char *nested, char *nested2, uint32_t &value);
+	bool get_2lv_nested_bool_entry(char *type, char *nested, char *nested2, bool &value);
 
 	int myJB64Encode(char *encoded, const char *string, int len);
 

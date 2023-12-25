@@ -128,7 +128,8 @@ void loop()
 		{
 			Serial.println("Send request failed : 'note.add'");
 		}
-		else{
+		else
+		{
 			Serial.println("Request sent to NoteCard");
 		}
 	}
@@ -142,7 +143,7 @@ void loop()
 	// Get NoteCard status
 	blues_hub_status();
 
-		delay(60000);
+	delay(60000);
 	Serial.println("\n");
 }
 

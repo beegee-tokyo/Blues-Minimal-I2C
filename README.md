@@ -541,6 +541,423 @@ void loop()
 
 ----
 
+#### `public void `[`add_2lv_nested_string_entry`](#class_r_a_k___b_l_u_e_s_1a82f72528723042c8686b12f81302a0ea)`(char * type,char * nested,char * nested2,char * value)` 
+
+Add 2 level nested C-String entry to request
+
+#### Parameters
+* `type` char * name 
+
+* `nested` char * nested name 
+
+* `nested2` char * 2nd level nested name 
+
+* `value` char * value 
+
+Example
+```cpp
+#include <Arduino.h>
+#include <blues-minimal-i2c.h>
+// I2C functions for Blues NoteCard
+RAK_BLUES rak_blues;
+
+ void setup()
+ {
+    if (rak_blues.start_req((char *)"note.add"))
+    {
+        char node_id[24];
+        sprintf(node_id, "%02x%02x%02x%02x%02x%02x%02x%02x",
+            g_lorawan_settings.node_device_eui[0], g_lorawan_settings.node_device_eui[1],
+            g_lorawan_settings.node_device_eui[2], g_lorawan_settings.node_device_eui[3],
+            g_lorawan_settings.node_device_eui[4], g_lorawan_settings.node_device_eui[5],
+            g_lorawan_settings.node_device_eui[6], g_lorawan_settings.node_device_eui[7]);
+        rak_blues.add_nested_string_entry((char *)"body", (char *)"sens1", (char *)"dev_eui", node_id);
+
+        if (!rak_blues.send_req())
+        {
+            return false;
+        }
+        return true;
+    }
+ }
+
+void loop()
+{
+}
+```
+
+----
+
+#### `public void `[`add_2lv_nested_int32_entry`](#class_r_a_k___b_l_u_e_s_1a3d9147f5260ee7d29cdcafb834ba9d66)`(char * type,char * nested,char * nested2,int32_t value)` 
+
+Add 2 level nested integer entry to request
+
+#### Parameters
+* `type` char * name 
+
+* `nested` char * nested name 
+
+* `nested2` char * 2nd level nested name 
+
+* `value` integer value 
+
+Example
+```cpp
+#include <Arduino.h>
+#include <blues-minimal-i2c.h>
+// I2C functions for Blues NoteCard
+RAK_BLUES rak_blues;
+
+ void setup()
+ {
+    if (rak_blues.start_req((char *)"note.add"))
+    {
+        rak_blues.add_nested_int32_entry((char *)"body", (char *)"sens1", (char *)"number", -65534);
+
+        if (!rak_blues.send_req())
+        {
+            return false;
+        }
+        return true;
+    }
+ }
+
+void loop()
+{
+}
+```
+
+----
+
+#### `public void `[`add_2lv_nested_uint32_entry`](#class_r_a_k___b_l_u_e_s_1ae800da06402c47dc1ecc2032827271a5)`(char * type,char * nested,char * nested2,uint32_t value)` 
+
+Add nested unsigned integer entry to request.
+
+#### Parameters
+* `type` char * name 
+
+* `nested` char * nested name 
+
+* `nested2` char * 2nd level nested name 
+
+* `value` unsigned integer value 
+
+Example
+```cpp
+#include <Arduino.h>
+#include <blues-minimal-i2c.h>
+// I2C functions for Blues NoteCard
+RAK_BLUES rak_blues;
+
+ void setup()
+ {
+    if (rak_blues.start_req((char *)"note.add"))
+    {
+        rak_blues.add_nested_uint32_entry((char *)"body", (char *)"sens1", (char *)"number", 65534);
+
+        if (!rak_blues.send_req())
+        {
+            return false;
+        }
+        return true;
+    }
+ }
+
+void loop()
+{
+}
+```
+
+----
+
+#### `public void `[`Add 2 level nested bool entry to request`](#class_r_a_k___b_l_u_e_s_1a5dd813b397bfdb837698c6078d8ce291)`(char * type,char * nested,char * nested2,bool value)` 
+
+Add 2 level nested bool entry to request
+
+#### Parameters
+* `type` char * name 
+
+* `nested` char * nested name 
+
+* `nested2` char * 2nd level nested name 
+
+* `value` bool value 
+
+Example
+```cpp
+#include <Arduino.h>
+#include <blues-minimal-i2c.h>
+// I2C functions for Blues NoteCard
+RAK_BLUES rak_blues;
+
+ void setup()
+ {
+    if (rak_blues.start_req((char *)"note.add"))
+    {
+        rak_blues.add_nested_bool_entry((char *)"body", (char *)"sens1", (char *)"valid", false);
+
+        if (!rak_blues.send_req())
+        {
+            return false;
+        }
+        return true;
+    }
+ }
+
+void loop()
+{
+}
+```
+
+----
+
+#### `public bool `[`get_2lv_nested_string_entry`](#class_r_a_k___b_l_u_e_s_1aca9ab69b08a7b43d22c5c6166438878b)`(char * type,char * nested,char * nested2,char * value,uint16_t value_size)` 
+
+Get 2nd level nested string entry (char array) from the response
+
+#### Parameters
+* `type` entry name as char * 
+
+* `nested` nested level name as char * 
+
+* `nested2` nested 2nd level name as char * 
+
+* `value` (out) address of char array to write the string to 
+
+* `value_size` size of target char array 
+
+#### Returns
+true if entry was found 
+
+#### Returns
+false if entry was not found 
+
+Example
+```cpp
+#include <Arduino.h>
+#include <blues-minimal-i2c.h>
+// I2C functions for Blues NoteCard
+RAK_BLUES rak_blues;
+
+char str_value[128];
+
+void setup()
+{
+	if (rak_blues.start_req((char *)"card.location"))
+	{
+		if (!rak_blues.send_req())
+		{
+			return false;
+		}
+		if (rak_blues.has_nested_entry((char *)"status",(char *)"sens_1"))
+		{
+			rak_blues.get_2lv_nested_string_entry((char *)"status",(char *)"sens_1",(char *)"error", str_value, 128);
+		}
+		return true;
+	}
+}
+
+  void loop()
+  {
+  }
+```
+
+----
+
+#### `public bool `[`get_2lv_nested_int32_entry`](#class_r_a_k___b_l_u_e_s_1a58e88df4c7f7229479a7856ba17f822f)`(char * type,char * nested,char * nested2,int32_t & value)` 
+
+Get 2nd level nested signed 32bit integer entry from the response
+
+#### Parameters
+* `type` entry name as char * 
+
+* `nested` nested level name as char * 
+
+* `nested2` nested 2nd level name as char * 
+
+* `value` (out) address of signed 32bit integer variable to write the value to 
+
+#### Returns
+true if entry was found 
+
+#### Returns
+false if entry was not found 
+
+Example
+```cpp
+#include <Arduino.h>
+#include <blues-minimal-i2c.h>
+// I2C functions for Blues NoteCard
+RAK_BLUES rak_blues;
+
+int32_t value;
+
+void setup()
+{
+	if (rak_blues.start_req((char *)"card.location"))
+	{
+		if (!rak_blues.send_req())
+		{
+			return false;
+		}
+		if (rak_blues.has_nested_entry((char *)"status",(char *)"sens_1"))
+		{
+			rak_blues.get_nested_int32_entry((char *)"status",(char *)"sens_1",(char *)"value", value);
+		}
+		return true;
+	}
+}
+
+  void loop()
+  {
+  }
+```
+
+----
+
+#### `public bool `[`get_2lv_nested_uint32_entry`](#class_r_a_k___b_l_u_e_s_1a5348eeaeddab010538def5912acc06dd)`(char * type,char * nested,char * nested2,uint32_t & value)` 
+
+Get 2nd level nested unsigned 32bit integer entry from the response
+
+#### Parameters
+* `type` entry name as char * 
+
+* `nested` nested level name as char * 
+
+* `nested2` nested 2nd level name as char * 
+
+* `value` (out) address of unsigned 32bit integer variable to write the value to 
+
+#### Returns
+true if entry was found 
+
+#### Returns
+false if entry was not found 
+
+Example
+```cpp
+#include <Arduino.h>
+#include <blues-minimal-i2c.h>
+// I2C functions for Blues NoteCard
+RAK_BLUES rak_blues;
+
+ uint32_t value;
+
+ void setup()
+ {
+    if (rak_blues.start_req((char *)"card.location"))
+    {
+        if (!rak_blues.send_req())
+        {
+            return false;
+        }
+        if (rak_blues.has_nested_entry((char *)"status",(char *)"sens_1"))
+        {
+            rak_blues.get_2lv_nested_uint32_entry((char *)"status", (char *)"sens1", (char *)"value", value);
+        }
+        return true;
+    }
+ }
+
+void loop()
+{
+}
+```
+
+----
+
+#### `public bool `[`get_2lv_nested_bool_entry`](#class_r_a_k___b_l_u_e_s_1a95fd867e024a5215de9c9f2f25649d4b)`(char * type,char * nested,char * nested2,bool & value)` 
+
+Get nested bool entry from the response.
+
+#### Parameters
+* `type` entry name as char * 
+
+* `nested` nested level name as char * 
+
+* `nested2` nested 2nd level name as char * 
+
+* `value` (out) address of bool variable to write the value to 
+
+#### Returns
+true if entry was found 
+
+#### Returns
+false if entry was not found 
+
+Example
+```cpp
+#include <Arduino.h>
+#include <blues-minimal-i2c.h>
+// I2C functions for Blues NoteCard
+RAK_BLUES rak_blues;
+
+bool value;
+
+void setup()
+{
+	if (rak_blues.start_req((char *)"card.location"))
+	{
+		if (!rak_blues.send_req())
+		{
+			return false;
+		}
+		if (rak_blues.has_nested_entry((char *)"status",(char *)"sens_1"))
+		{
+			rak_blues.get_2lv_nested_bool_entry((char *)"status",(char *)"sens_1"),(char *)"value"), value);
+		}
+		return true;
+	}
+}
+
+void loop()
+{
+}
+```
+
+----
+
+#### `public void `[`add_2lv_nested_float_entry`](#class_r_a_k___b_l_u_e_s_1aa7a85cac6bd6618e0020a92e6e2115fd)`(char * type,char * nested,char * nested2,float value)` 
+
+Add nested float entry to request.
+
+#### Parameters
+* `type` char * name 
+
+* `nested` char * nested name 
+
+* `nested2` char * 2nd level nested name 
+
+* `value` float value 
+
+Example
+```cpp
+#include <Arduino.h>
+#include <blues-minimal-i2c.h>
+// I2C functions for Blues NoteCard
+RAK_BLUES rak_blues;
+
+ void setup()
+ {
+    if (rak_blues.start_req((char *)"note.add"))
+    {
+        rak_blues.add_nested_float_entry((char *)"body", (char *)"sens1", (char *)"temperature", 32.8);
+
+        if (!rak_blues.send_req())
+        {
+            return false;
+        }
+        return true;
+    }
+ }
+
+void loop()
+{
+}
+```
+
+----
+
 ## Parse response JSON object
 
 ----
